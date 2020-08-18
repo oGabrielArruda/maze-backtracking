@@ -31,7 +31,7 @@ namespace _19170_19196_ED_Lab
 
         private void btnFindWays_Click(object sender, EventArgs e)
         {
-            labirinto.acharCaminhos(dgvCaminhosEncontrados);
+            labirinto.acharCaminhos(dgvLabirinto, dgvCaminhosEncontrados);
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -43,13 +45,13 @@ namespace _19170_19196_ED_Lab
                     dgv.Rows[i].Cells[j].Value = matriz[i, j];
         }
 
-        public void acharCaminhos(DataGridView dgv)
+        public void acharCaminhos(DataGridView dgvLabirinto, DataGridView dgvCaminhos)
         {
-            ajustarDgv(dgv);
-            PilhaLista<Movimento> umCaminho = acharUmCaminho();
-            exibirCaminho(dgv, umCaminho);
+            ajustarDgv(dgvCaminhos);
+            PilhaLista<Movimento> umCaminho = acharUmCaminho(dgvLabirinto);
+            exibirCaminho(dgvCaminhos, umCaminho);
         }
-        private PilhaLista<Movimento> acharUmCaminho()
+        private PilhaLista<Movimento> acharUmCaminho(DataGridView dgv)
         {
             int[] movimentoLinha = { -1, -1, 0, 1, 1, 1, 0, -1 };
             int[] movimentoColuna = { 0, 1, 1, 1, 0, -1, -1, -1 };
@@ -57,6 +59,7 @@ namespace _19170_19196_ED_Lab
             int colunaAtual = 1;
             bool possivelSaida = true;
 
+            exibirMovimento(dgv, linhaAtual, colunaAtual);
 
             PilhaLista<Movimento> pilhaMov = new PilhaLista<Movimento>();
 
@@ -73,6 +76,7 @@ namespace _19170_19196_ED_Lab
                         Movimento mov = new Movimento(linhaAtual, colunaAtual, possivelLinha, possivelColuna);
                         pilhaMov.Empilhar(mov);
                         mover(ref linhaAtual, ref colunaAtual, mov);
+                        exibirMovimento(dgv, linhaAtual, colunaAtual);
                         seMoveu = true;
                     }
                 }
@@ -107,6 +111,13 @@ namespace _19170_19196_ED_Lab
 
             linhaAtual = possivelLinha;
             colunaAtual = possivelColuna;
+        }
+
+        private void exibirMovimento(DataGridView dgv, int linhaAtual, int colunaAtual)
+        {
+            dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.Green;
+            Thread.Sleep(1000);
+            Application.DoEvents();
         }
 
         private void exibirCaminho(DataGridView dgv,PilhaLista<Movimento> umCaminho)
