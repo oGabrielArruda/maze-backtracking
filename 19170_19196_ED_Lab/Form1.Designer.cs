@@ -32,6 +32,9 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnFindWays = new System.Windows.Forms.Button();
+            this.btnOpenFile = new System.Windows.Forms.Button();
+            this.dlgAbrirArquivo = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -72,17 +75,42 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Caminhos encontrados:";
             // 
+            // btnFindWays
+            // 
+            this.btnFindWays.Location = new System.Drawing.Point(927, 13);
+            this.btnFindWays.Name = "btnFindWays";
+            this.btnFindWays.Size = new System.Drawing.Size(75, 76);
+            this.btnFindWays.TabIndex = 4;
+            this.btnFindWays.Text = "Encontrar Caminhos";
+            this.btnFindWays.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenFile
+            // 
+            this.btnOpenFile.Location = new System.Drawing.Point(846, 12);
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(75, 76);
+            this.btnOpenFile.TabIndex = 5;
+            this.btnOpenFile.Text = "Abrir Arquivo";
+            this.btnOpenFile.UseVisualStyleBackColor = true;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            // 
+            // dlgAbrirArquivo
+            // 
+            this.dlgAbrirArquivo.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1011, 487);
+            this.Controls.Add(this.btnOpenFile);
+            this.Controls.Add(this.btnFindWays);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Caminhos em labirinto";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
@@ -96,6 +124,9 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnFindWays;
+        private System.Windows.Forms.Button btnOpenFile;
+        private System.Windows.Forms.OpenFileDialog dlgAbrirArquivo;
     }
 }
 
