@@ -28,5 +28,10 @@ namespace _19170_19196_ED_Lab
                 labirinto.exibirLabirinto(dgvLabirinto);
             }            
         }
+
+        private void btnFindWays_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

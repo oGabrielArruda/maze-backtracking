@@ -85,6 +85,7 @@
             this.btnFindWays.TabIndex = 4;
             this.btnFindWays.Text = "Encontrar Caminhos";
             this.btnFindWays.UseVisualStyleBackColor = true;
+            this.btnFindWays.Click += new System.EventHandler(this.btnFindWays_Click);
             // 
             // btnOpenFile
             // 
