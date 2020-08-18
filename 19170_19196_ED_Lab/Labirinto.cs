@@ -35,13 +35,6 @@ namespace _19170_19196_ED_Lab
             }
         }
 
-        private void ajustarDgv(DataGridView dgv)
-        {
-            dgv.RowCount = matriz.GetLength(0);
-            dgv.ColumnCount = matriz.GetLength(1);
-            dgv.ColumnHeadersVisible = false;
-            dgv.RowHeadersVisible = false;
-        }
         public void exibirLabirinto(DataGridView dgv)
         {
             ajustarDgv(dgv);
@@ -56,6 +49,65 @@ namespace _19170_19196_ED_Lab
             PilhaLista<Movimento> umCaminho = acharUmCaminho();
             exibirCaminho(dgv, umCaminho);
         }
+        private PilhaLista<Movimento> acharUmCaminho()
+        {
+            int[] movimentoLinha = { -1, -1, 0, 1, 1, 1, 0, -1 };
+            int[] movimentoColuna = { 0, 1, 1, 1, 0, -1, -1, -1 };
+            int linhaAtual = 1;
+            int colunaAtual = 1;
+            bool possivelSaida = true;
+
+
+            PilhaLista<Movimento> pilhaMov = new PilhaLista<Movimento>();
+
+            while (matriz[linhaAtual, colunaAtual] != 'S' && possivelSaida) // enquanto não encontrou a saída e há uma possível saída
+            {
+                bool seMoveu = false;
+                for (int i = 0; i < movimentoLinha.Length && !seMoveu; i++) // enquanto há possíveis movimentos a serem feitos
+                {
+                    int possivelLinha = linhaAtual + movimentoLinha[i];
+                    int possivelColuna = colunaAtual + movimentoColuna[i];
+
+                    if (podeMover(possivelLinha, possivelColuna))
+                    {
+                        Movimento mov = new Movimento(linhaAtual, colunaAtual, possivelLinha, possivelColuna);
+                        pilhaMov.Empilhar(mov);
+                        mover(ref linhaAtual, ref colunaAtual, mov);
+                        seMoveu = true;
+                    }
+                }
+
+                if (!seMoveu) // se está preso em uma parte do labirinto, volta-se um movimento
+                {
+                    if (pilhaMov.EstaVazia)
+                        possivelSaida = false;
+                    else
+                    {
+                        Movimento mov = pilhaMov.Desempilhar();
+                        linhaAtual = mov.LinhaOrigem;
+                        colunaAtual = mov.ColunaOrigem;
+                    }
+                }
+            }
+
+            return pilhaMov;
+        }
+
+        bool podeMover(int possivelLinha, int possivelColuna)
+        {
+            return matriz[possivelLinha, possivelColuna] == ' ' || matriz[possivelLinha, possivelColuna] == 'S';
+        }
+        private void mover(ref int linhaAtual, ref int colunaAtual, Movimento mov)
+        {
+            int possivelLinha = mov.LinhaDestino;
+            int possivelColuna = mov.ColunaDestino;
+
+            if (matriz[possivelLinha, possivelColuna] != 'S')
+                matriz[possivelLinha, possivelColuna] = 'o';
+
+            linhaAtual = possivelLinha;
+            colunaAtual = possivelColuna;
+        }
 
         private void exibirCaminho(DataGridView dgv,PilhaLista<Movimento> umCaminho)
         {
@@ -66,54 +118,14 @@ namespace _19170_19196_ED_Lab
                 dgv.Rows[0].Cells[i].Value = mov.LinhaDestino + "  " + mov.ColunaDestino;
             }
         }
-        private PilhaLista<Movimento> acharUmCaminho()
+
+
+        private void ajustarDgv(DataGridView dgv)
         {
-            int[] movimentoLinha =  { -1, -1, 0, 1, 1, 1, 0, -1 };
-            int[] movimentoColuna = { 0, 1, 1, 1, 0, -1, -1, -1 };
-            int linhaAtual = 1;
-            int colunaAtual = 1;
-            bool possivelSaida = true;
-
-
-            PilhaLista<Movimento> pilhaMov = new PilhaLista<Movimento>();
-
-            while(matriz[linhaAtual, colunaAtual] != 'S' && possivelSaida)
-            {
-                bool seMoveu = false;
-                for(int i = 0; i < 8 && !seMoveu; i++)
-                {
-                    int possivelLinha = linhaAtual + movimentoLinha[i];
-                    int possivelColuna = colunaAtual + movimentoColuna[i];
-
-                    if(matriz[possivelLinha, possivelColuna] == ' ' || matriz[possivelLinha, possivelColuna] == 'S')
-                    {
-                        Movimento mov = new Movimento(linhaAtual, colunaAtual, possivelLinha, possivelColuna);
-                        pilhaMov.Empilhar(mov);
-
-                        if(matriz[possivelLinha, possivelColuna] != 'S')
-                            matriz[possivelLinha, possivelColuna] = 'o';
-
-                        linhaAtual = possivelLinha;
-                        colunaAtual = possivelColuna;
-                                                
-                        seMoveu = true;
-                    }
-                }
-
-                if (!seMoveu) 
-                {
-                    if (pilhaMov.EstaVazia)
-                        possivelSaida = false;
-                    else
-                    {
-                        Movimento mov = pilhaMov.Desempilhar();
-                        linhaAtual = mov.LinhaOrigem;
-                        colunaAtual = mov.ColunaOrigem;
-                    }                    
-                }
-            }
-
-            return pilhaMov;
+            dgv.RowCount = matriz.GetLength(0);
+            dgv.ColumnCount = matriz.GetLength(1);
+            dgv.ColumnHeadersVisible = false;
+            dgv.RowHeadersVisible = false;
         }
     }
 }
