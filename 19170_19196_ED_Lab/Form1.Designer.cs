@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.dgvLabirinto = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvCaminhosEncontrados = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnFindWays = new System.Windows.Forms.Button();
             this.btnOpenFile = new System.Windows.Forms.Button();
             this.dlgAbrirArquivo = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLabirinto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCaminhosEncontrados)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvLabirinto
@@ -49,13 +49,13 @@
             this.dgvLabirinto.Size = new System.Drawing.Size(356, 380);
             this.dgvLabirinto.TabIndex = 0;
             // 
-            // dataGridView2
+            // dgvCaminhosEncontrados
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(400, 95);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(599, 380);
-            this.dataGridView2.TabIndex = 1;
+            this.dgvCaminhosEncontrados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCaminhosEncontrados.Location = new System.Drawing.Point(400, 95);
+            this.dgvCaminhosEncontrados.Name = "dgvCaminhosEncontrados";
+            this.dgvCaminhosEncontrados.Size = new System.Drawing.Size(599, 380);
+            this.dgvCaminhosEncontrados.TabIndex = 1;
             // 
             // label1
             // 
@@ -110,12 +110,12 @@
             this.Controls.Add(this.btnFindWays);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dgvCaminhosEncontrados);
             this.Controls.Add(this.dgvLabirinto);
             this.Name = "Form1";
             this.Text = "Caminhos em labirinto";
             ((System.ComponentModel.ISupportInitialize)(this.dgvLabirinto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCaminhosEncontrados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -124,7 +124,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvLabirinto;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvCaminhosEncontrados;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnFindWays;
