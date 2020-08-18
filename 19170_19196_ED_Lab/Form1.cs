@@ -25,6 +25,7 @@ namespace _19170_19196_ED_Lab
             {
                 string nomeArq = dlgAbrirArquivo.FileName;
                 labirinto = new Labirinto(nomeArq);
+                labirinto.exibirLabirinto(dgvLabirinto);
             }            
         }
     }
