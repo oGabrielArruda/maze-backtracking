@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 
-class PilhaLista<Dado> : ListaSimples<Dado>, IStack<Dado>
+class PilhaLista<Dado> : ListaSimples<Dado>, IStack<Dado>, IComparable<PilhaLista<Dado>>
                         where Dado : IComparable<Dado>
 {
 public Dado Desempilhar()
@@ -62,4 +62,9 @@ public void Exibir(DataGridView dgv)
     while (!auxiliar.EstaVazia)
         this.Empilhar(auxiliar.Desempilhar());
 }
+
+    public int CompareTo(PilhaLista<Dado> other)
+    {
+        throw new NotImplementedException();
+    }
 }

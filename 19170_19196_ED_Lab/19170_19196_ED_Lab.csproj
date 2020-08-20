@@ -55,7 +55,7 @@
     <Compile Include="IStack.cs" />
     <Compile Include="Labirinto.cs" />
     <Compile Include="ListaSimples.cs" />
-    <Compile Include="Movimento.cs" />
+    <Compile Include="Coordenada.cs" />
     <Compile Include="NoLista.cs" />
     <Compile Include="PilhaLista.cs" />
     <Compile Include="PilhaVaziaException.cs" />

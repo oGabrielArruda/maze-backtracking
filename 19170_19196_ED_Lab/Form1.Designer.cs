@@ -46,15 +46,15 @@
             this.dgvLabirinto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLabirinto.Location = new System.Drawing.Point(12, 95);
             this.dgvLabirinto.Name = "dgvLabirinto";
-            this.dgvLabirinto.Size = new System.Drawing.Size(356, 380);
+            this.dgvLabirinto.Size = new System.Drawing.Size(404, 390);
             this.dgvLabirinto.TabIndex = 0;
             // 
             // dgvCaminhosEncontrados
             // 
             this.dgvCaminhosEncontrados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCaminhosEncontrados.Location = new System.Drawing.Point(400, 95);
+            this.dgvCaminhosEncontrados.Location = new System.Drawing.Point(422, 95);
             this.dgvCaminhosEncontrados.Name = "dgvCaminhosEncontrados";
-            this.dgvCaminhosEncontrados.Size = new System.Drawing.Size(599, 380);
+            this.dgvCaminhosEncontrados.Size = new System.Drawing.Size(577, 390);
             this.dgvCaminhosEncontrados.TabIndex = 1;
             // 
             // label1
@@ -71,7 +71,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(397, 75);
+            this.label2.Location = new System.Drawing.Point(419, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(157, 17);
             this.label2.TabIndex = 3;
