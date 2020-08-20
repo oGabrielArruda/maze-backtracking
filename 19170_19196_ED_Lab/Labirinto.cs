@@ -52,52 +52,50 @@ namespace _19170_19196_ED_Lab
             exibirCaminho(dgvCaminhos, umCaminho);
         }
         private PilhaLista<Coordenada> acharUmCaminho(DataGridView dgv)
+        {  
+            int linhaInicio = 1;
+            int colunaInicio = 1;
+            exibirMovimento(dgv, linhaInicio, colunaInicio, true);
+
+            PilhaLista<Coordenada> pilhaMovimentos = new PilhaLista<Coordenada>();
+            buscaCaminho(linhaInicio, colunaInicio, pilhaMovimentos, dgv);
+
+
+            return pilhaMovimentos;
+        }
+
+        private PilhaLista<Coordenada> buscaCaminho(int linhaAtual, int colunaAtual, PilhaLista<Coordenada> pilhaMovimentos, DataGridView dgv)
         {
             int[] movimentoLinha = { -1, -1, 0, 1, 1, 1, 0, -1 };
             int[] movimentoColuna = { 0, 1, 1, 1, 0, -1, -1, -1 };
-            int linhaAtual = 1;
-            int colunaAtual = 1;
-            bool possivelSaida = true;
-
-            exibirMovimento(dgv, linhaAtual, colunaAtual, true);
-
-            PilhaLista<Coordenada> pilhaMovimentos = new PilhaLista<Coordenada>();
-            pilhaMovimentos.Empilhar(new Coordenada(1, 1));
-
-            while (matriz[linhaAtual, colunaAtual] != 'S' && possivelSaida) // enquanto não encontrou a saída e há uma possível saída
+            bool seMoveu = false;
+            for (int i = 0; i < movimentoLinha.Length && !seMoveu; i++) // enquanto há possíveis movimentos a serem feitos
             {
-                bool seMoveu = false;
-                for (int i = 0; i < movimentoLinha.Length && !seMoveu; i++) // enquanto há possíveis movimentos a serem feitos
-                {
-                    int possivelLinha = linhaAtual + movimentoLinha[i];
-                    int possivelColuna = colunaAtual + movimentoColuna[i];
+                int possivelLinha = linhaAtual + movimentoLinha[i];
+                int possivelColuna = colunaAtual + movimentoColuna[i];
 
-                    if (podeMover(possivelLinha, possivelColuna))
-                    {
-                        Coordenada coord = new Coordenada(possivelLinha, possivelColuna);
-                        pilhaMovimentos.Empilhar(coord);
-                        mover(ref linhaAtual, ref colunaAtual, coord);
-                        exibirMovimento(dgv, linhaAtual, colunaAtual, true);
-                        seMoveu = true;
-                    }
-                }
-
-                if (!seMoveu) // se está preso em uma parte do labirinto, volta-se um movimento
+                if (podeMover(possivelLinha, possivelColuna))
                 {
-                    if (pilhaMovimentos.EstaVazia)
-                        possivelSaida = false;
-                    else
-                    {
-                        exibirMovimento(dgv, linhaAtual, colunaAtual, false);
-                        pilhaMovimentos.Desempilhar();
-                        Coordenada coord = pilhaMovimentos.OTopo();
-                        linhaAtual = coord.Linha;
-                        colunaAtual = coord.Coluna;
-                    }
+                    Coordenada coord = new Coordenada(possivelLinha, possivelColuna);
+                    pilhaMovimentos.Empilhar(coord);
+                    mover(ref linhaAtual, ref colunaAtual, coord);
+                    exibirMovimento(dgv, linhaAtual, colunaAtual, true);
+                    seMoveu = true;
+                    return buscaCaminho(linhaAtual, colunaAtual, pilhaMovimentos, dgv);
                 }
             }
-            return pilhaMovimentos;
-        }
+
+            if (pilhaMovimentos.EstaVazia || matriz[linhaAtual, colunaAtual] == 'S')
+                 return pilhaMovimentos;
+            else
+            {
+                exibirMovimento(dgv, linhaAtual, colunaAtual, false);
+                pilhaMovimentos.Desempilhar();
+                Coordenada coord = pilhaMovimentos.OTopo();
+                return buscaCaminho(coord.Linha, coord.Coluna, pilhaMovimentos, dgv);
+            }
+
+        }                   
 
         bool podeMover(int possivelLinha, int possivelColuna)
         {
@@ -121,8 +119,8 @@ namespace _19170_19196_ED_Lab
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.Green;
             else
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.White;
-            Thread.Sleep(300);
-            Application.DoEvents();
+          //Thread.Sleep(1);
+          //Application.DoEvents();
         }
 
         private void exibirCaminho(DataGridView dgv, PilhaLista<Coordenada> umCaminho)
