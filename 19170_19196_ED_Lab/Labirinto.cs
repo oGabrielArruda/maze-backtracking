@@ -53,14 +53,9 @@ namespace _19170_19196_ED_Lab
         }
         private PilhaLista<Coordenada> acharUmCaminho(DataGridView dgv)
         {  
-            int linhaInicio = 1;
-            int colunaInicio = 1;
-            exibirMovimento(dgv, linhaInicio, colunaInicio, true);
-
+            exibirMovimento(dgv, 1, 1, true);
             PilhaLista<Coordenada> pilhaMovimentos = new PilhaLista<Coordenada>();
-            buscaCaminho(linhaInicio, colunaInicio, pilhaMovimentos, dgv);
-
-
+            buscaCaminho(1, 1, pilhaMovimentos, dgv);
             return pilhaMovimentos;
         }
 
@@ -68,8 +63,7 @@ namespace _19170_19196_ED_Lab
         {
             int[] movimentoLinha = { -1, -1, 0, 1, 1, 1, 0, -1 };
             int[] movimentoColuna = { 0, 1, 1, 1, 0, -1, -1, -1 };
-            bool seMoveu = false;
-            for (int i = 0; i < movimentoLinha.Length && !seMoveu; i++) // enquanto há possíveis movimentos a serem feitos
+            for (int i = 0; i < movimentoLinha.Length; i++) // enquanto há possíveis movimentos a serem feitos
             {
                 int possivelLinha = linhaAtual + movimentoLinha[i];
                 int possivelColuna = colunaAtual + movimentoColuna[i];
@@ -80,17 +74,20 @@ namespace _19170_19196_ED_Lab
                     pilhaMovimentos.Empilhar(coord);
                     mover(ref linhaAtual, ref colunaAtual, coord);
                     exibirMovimento(dgv, linhaAtual, colunaAtual, true);
-                    seMoveu = true;
                     return buscaCaminho(linhaAtual, colunaAtual, pilhaMovimentos, dgv);
                 }
             }
 
-            if (pilhaMovimentos.EstaVazia || matriz[linhaAtual, colunaAtual] == 'S')
+            if (matriz[linhaAtual, colunaAtual] == 'S')
                  return pilhaMovimentos;
             else
             {
                 exibirMovimento(dgv, linhaAtual, colunaAtual, false);
                 pilhaMovimentos.Desempilhar();
+
+                if (pilhaMovimentos.EstaVazia)
+                    return pilhaMovimentos;
+
                 Coordenada coord = pilhaMovimentos.OTopo();
                 return buscaCaminho(coord.Linha, coord.Coluna, pilhaMovimentos, dgv);
             }
@@ -119,8 +116,8 @@ namespace _19170_19196_ED_Lab
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.Green;
             else
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.White;
-          //Thread.Sleep(1);
-          //Application.DoEvents();
+          Thread.Sleep(200);
+          Application.DoEvents();
         }
 
         private void exibirCaminho(DataGridView dgv, PilhaLista<Coordenada> umCaminho)
