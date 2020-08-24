@@ -67,4 +67,9 @@ public void Exibir(DataGridView dgv)
     {
         throw new NotImplementedException();
     }
+
+    public PilhaLista<Dado> Clone()
+    {
+        return (PilhaLista<Dado>)this.MemberwiseClone();
+    }
 }

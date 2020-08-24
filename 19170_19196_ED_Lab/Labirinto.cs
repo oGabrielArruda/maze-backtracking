@@ -45,92 +45,105 @@ namespace _19170_19196_ED_Lab
                     dgv.Rows[i].Cells[j].Value = matriz[i, j];
         }
 
+
         public void acharCaminhos(DataGridView dgvLabirinto, DataGridView dgvCaminhos)
-        {
+        {            
+            List<PilhaLista<Coordenada>> caminhos = listaCaminhos(dgvLabirinto);
             ajustarDgv(dgvCaminhos);
-            PilhaLista<Coordenada> umCaminho = acharUmCaminho(dgvLabirinto);
-            exibirCaminho(dgvCaminhos, umCaminho);
-        }
-        private PilhaLista<Coordenada> acharUmCaminho(DataGridView dgv)
-        {  
-            exibirMovimento(dgv, 1, 1, true);
-            PilhaLista<Coordenada> pilhaMovimentos = new PilhaLista<Coordenada>();
-            buscaCaminho(1, 1, pilhaMovimentos, dgv);
-            return pilhaMovimentos;
+            int qtdCaminhos = 0;
+            foreach(PilhaLista<Coordenada> caminho in caminhos)                                       
+                exibirCaminho(dgvCaminhos, caminho, qtdCaminhos++);                        
         }
 
-        private PilhaLista<Coordenada> buscaCaminho(int linhaAtual, int colunaAtual, PilhaLista<Coordenada> pilhaMovimentos, DataGridView dgv)
+        private List<PilhaLista<Coordenada>> listaCaminhos(DataGridView dgv)
         {
+            int linhaAtual = 1, colunaAtual = 1;
+            List<PilhaLista<Coordenada>> caminhosEncontrados = new List<PilhaLista<Coordenada>>();
+            PilhaLista<Coordenada> pilhaMovimentos = new PilhaLista<Coordenada>();
+            pilhaMovimentos.Empilhar(new Coordenada(1, 1));
+            exibirMovimento(dgv, 1, 1, true);
+
+            
+
             int[] movimentoLinha = { -1, -1, 0, 1, 1, 1, 0, -1 };
             int[] movimentoColuna = { 0, 1, 1, 1, 0, -1, -1, -1 };
-            for (int i = 0; i < movimentoLinha.Length; i++) // enquanto há possíveis movimentos a serem feitos
-            {
-                int possivelLinha = linhaAtual + movimentoLinha[i];
-                int possivelColuna = colunaAtual + movimentoColuna[i];
+            bool temCaminhoPossivel = true;
 
-                if (podeMover(possivelLinha, possivelColuna))
+            while(temCaminhoPossivel)
+            {
+                bool seMoveu = false;
+                for (int i = 0; i < movimentoLinha.Length && !seMoveu; i++)
                 {
-                    Coordenada coord = new Coordenada(possivelLinha, possivelColuna);
-                    pilhaMovimentos.Empilhar(coord);
-                    mover(ref linhaAtual, ref colunaAtual, coord);
-                    exibirMovimento(dgv, linhaAtual, colunaAtual, true);
-                    return buscaCaminho(linhaAtual, colunaAtual, pilhaMovimentos, dgv);
+                    int possivelLinha = linhaAtual + movimentoLinha[i];
+                    int possivelColuna = colunaAtual + movimentoColuna[i];
+
+                    char valorPosicao = matriz[possivelLinha, possivelColuna];
+                    if (estaVazio(valorPosicao))
+                        mover(possivelLinha, possivelColuna, ref linhaAtual, ref colunaAtual, dgv, pilhaMovimentos, ref seMoveu);
+                    else if (ehSaida(valorPosicao))
+                        salvarCaminho(caminhosEncontrados, pilhaMovimentos, possivelLinha, possivelColuna, dgv);
                 }
+
+                if(!seMoveu)
+                {
+                    Coordenada coordAtual = pilhaMovimentos.Desempilhar();
+                    exibirMovimento(dgv, coordAtual.Linha, coordAtual.Coluna, false);
+
+                    if (pilhaMovimentos.EstaVazia)
+                        temCaminhoPossivel = false;
+                    else
+                    {
+                        Coordenada coordAntiga = pilhaMovimentos.OTopo();
+                        linhaAtual = coordAntiga.Linha;
+                        colunaAtual = coordAntiga.Coluna;
+                    }
+                } 
             }
 
-            if (matriz[linhaAtual, colunaAtual] == 'S')
-                 return pilhaMovimentos;
-            else
-            {
-                exibirMovimento(dgv, linhaAtual, colunaAtual, false);
-                pilhaMovimentos.Desempilhar();
-
-                if (pilhaMovimentos.EstaVazia)
-                    return pilhaMovimentos;
-
-                Coordenada coord = pilhaMovimentos.OTopo();
-                return buscaCaminho(coord.Linha, coord.Coluna, pilhaMovimentos, dgv);
-            }
-
-        }                   
-
-        bool podeMover(int possivelLinha, int possivelColuna)
-        {
-            return matriz[possivelLinha, possivelColuna] == ' ' || matriz[possivelLinha, possivelColuna] == 'S';
+            return caminhosEncontrados;
         }
-        private void mover(ref int linhaAtual, ref int colunaAtual, Coordenada coord)
+
+        private bool estaVazio(char c) => c == ' ';
+        private bool ehSaida(char c) => c == 'S';
+        private void mover(int possivelLinha, int possivelColuna, ref int linhaAtual, ref int colunaAtual, DataGridView dgv, PilhaLista<Coordenada> pilhaMovimentos, ref bool seMoveu)
         {
-            int possivelLinha = coord.Linha;
-            int possivelColuna = coord.Coluna;
-
-            if (matriz[possivelLinha, possivelColuna] != 'S')
-                matriz[possivelLinha, possivelColuna] = 'o';
-
             linhaAtual = possivelLinha;
             colunaAtual = possivelColuna;
+            pilhaMovimentos.Empilhar(new Coordenada(linhaAtual, colunaAtual));
+            seMoveu = true;
+            matriz[linhaAtual, colunaAtual] = 'o';
+            exibirMovimento(dgv, linhaAtual, colunaAtual, true);
+        }
+
+        private void salvarCaminho(List<PilhaLista<Coordenada>> listaCaminhos, PilhaLista<Coordenada> pilhaMovimentos, int linhaFinal, int colunaFinal, DataGridView dgv)
+        {
+            pilhaMovimentos.Empilhar(new Coordenada(linhaFinal, colunaFinal));
+            listaCaminhos.Add(pilhaMovimentos.Clone());
+            exibirMovimento(dgv, linhaFinal, colunaFinal, true);
+            exibirMovimento(dgv, linhaFinal, colunaFinal, false);
+            pilhaMovimentos.Desempilhar();
         }
 
         private void exibirMovimento(DataGridView dgv, int linhaAtual, int colunaAtual, bool avanco)
         {
-            if(avanco)
+            if (avanco)
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.Green;
             else
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.White;
-          Thread.Sleep(200);
-          Application.DoEvents();
+            //Thread.Sleep(10);
+            //Application.DoEvents();
         }
 
-        private void exibirCaminho(DataGridView dgv, PilhaLista<Coordenada> umCaminho)
+        private void exibirCaminho(DataGridView dgv, PilhaLista<Coordenada> umCaminho, int linha)
         {
             int t = umCaminho.Tamanho;
             dgv.ColumnCount = 100;
-            for(int i = t-1; i >= 0; i--)
+            for (int i = t - 1; i >= 0; i--)
             {
                 Coordenada coord = umCaminho.Desempilhar();
-                dgv.Rows[0].Cells[i].Value = "Linha: " + coord.Linha + "  Coluna: " + coord.Coluna;
+                dgv.Rows[linha].Cells[i].Value = "Linha: " + coord.Linha + "  Coluna: " + coord.Coluna;
             }
         }
-
 
         private void ajustarDgv(DataGridView dgv)
         {
