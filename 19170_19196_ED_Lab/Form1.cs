@@ -21,6 +21,9 @@ namespace _19170_19196_ED_Lab
         Labirinto labirinto;
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
+            limparDgv(dgvCaminhosEncontrados);
+            limparDgv(dgvLabirinto);
+
             if(dlgAbrirArquivo.ShowDialog() == DialogResult.OK)
             {
                 string nomeArq = dlgAbrirArquivo.FileName;
@@ -32,12 +35,19 @@ namespace _19170_19196_ED_Lab
         private void btnFindWays_Click(object sender, EventArgs e)
         {
             labirinto.acharCaminhos(dgvLabirinto, dgvCaminhosEncontrados);
+            labirinto.exibirSequenciaDeMovimentos(dgvCaminhosEncontrados);
         }
 
         private void dgvCaminhosEncontrados_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int linha = dgvCaminhosEncontrados.CurrentCell.RowIndex;
             labirinto.exibirCaminho(dgvLabirinto, linha);           
+        }
+
+        private void limparDgv(DataGridView dgv)
+        {
+            dgv.DataSource = null;
+            dgv.Rows.Clear();
         }
     }
 }

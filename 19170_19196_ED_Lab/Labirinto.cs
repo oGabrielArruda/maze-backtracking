@@ -13,7 +13,7 @@ namespace _19170_19196_ED_Lab
     class Labirinto
     {
         private char[ , ] matriz;
-        List<PilhaLista<Coordenada>> caminhosPossiveis;
+        List<PilhaLista<Coordenada>> caminhosPossiveis;       
         public Labirinto(string nomeArquivo)
         {
             lerArquivo(nomeArquivo);                
@@ -62,14 +62,19 @@ namespace _19170_19196_ED_Lab
             Application.DoEvents();
         }
 
+        public void exibirSequenciaDeMovimentos(DataGridView dgv)
+        {
+            int qtdCaminhos = 0;
+            foreach (PilhaLista<Coordenada> caminho in caminhosPossiveis)
+                exibirDadosCaminho(dgv, caminho.Clone(), qtdCaminhos++);
+        }
+
         public void acharCaminhos(DataGridView dgvLabirinto, DataGridView dgvCaminhos)
         {            
             caminhosPossiveis = listaCaminhos(dgvLabirinto);
-            ajustarDgv(dgvCaminhos);
-            int qtdCaminhos = 0;
-            foreach(PilhaLista<Coordenada> caminho in caminhosPossiveis)                                       
-                exibirDadosCaminho(dgvCaminhos, caminho.Clone(), qtdCaminhos++);                        
+            ajustarDgv(dgvCaminhos);                                
         }
+
 
         private List<PilhaLista<Coordenada>> listaCaminhos(DataGridView dgv)
         {
