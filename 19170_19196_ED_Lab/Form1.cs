@@ -33,5 +33,11 @@ namespace _19170_19196_ED_Lab
         {
             labirinto.acharCaminhos(dgvLabirinto, dgvCaminhosEncontrados);
         }
+
+        private void dgvCaminhosEncontrados_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int linha = dgvCaminhosEncontrados.CurrentCell.RowIndex;
+            labirinto.exibirCaminho(dgvLabirinto, linha);           
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace _19170_19196_ED_Lab
     class Labirinto
     {
         private char[ , ] matriz;
+        List<PilhaLista<Coordenada>> caminhosPossiveis;
         public Labirinto(string nomeArquivo)
         {
             lerArquivo(nomeArquivo);                
@@ -45,14 +46,29 @@ namespace _19170_19196_ED_Lab
                     dgv.Rows[i].Cells[j].Value = matriz[i, j];
         }
 
+        public void exibirCaminho(DataGridView dgv, int indexCaminho)
+        {
+            PilhaLista<Coordenada> caminho = caminhosPossiveis[indexCaminho].Clone();
+            for (int i = 0; i < matriz.GetLength(0); i++)
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                    dgv.Rows[i].Cells[j].Style.BackColor = Color.White;
+
+            while (!caminho.EstaVazia)
+            {
+                Coordenada coord = caminho.Desempilhar();
+                dgv.Rows[coord.Linha].Cells[coord.Coluna].Style.BackColor = Color.Green;
+            }
+
+            Application.DoEvents();
+        }
 
         public void acharCaminhos(DataGridView dgvLabirinto, DataGridView dgvCaminhos)
         {            
-            List<PilhaLista<Coordenada>> caminhos = listaCaminhos(dgvLabirinto);
+            caminhosPossiveis = listaCaminhos(dgvLabirinto);
             ajustarDgv(dgvCaminhos);
             int qtdCaminhos = 0;
-            foreach(PilhaLista<Coordenada> caminho in caminhos)                                       
-                exibirCaminho(dgvCaminhos, caminho, qtdCaminhos++);                        
+            foreach(PilhaLista<Coordenada> caminho in caminhosPossiveis)                                       
+                exibirDadosCaminho(dgvCaminhos, caminho.Clone(), qtdCaminhos++);                        
         }
 
         private List<PilhaLista<Coordenada>> listaCaminhos(DataGridView dgv)
@@ -130,11 +146,11 @@ namespace _19170_19196_ED_Lab
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.Green;
             else
                 dgv.Rows[linhaAtual].Cells[colunaAtual].Style.BackColor = Color.White;
-            //Thread.Sleep(10);
-            //Application.DoEvents();
+            Thread.Sleep(10);
+            Application.DoEvents();
         }
 
-        private void exibirCaminho(DataGridView dgv, PilhaLista<Coordenada> umCaminho, int linha)
+        private void exibirDadosCaminho(DataGridView dgv, PilhaLista<Coordenada> umCaminho, int linha)
         {
             int t = umCaminho.Tamanho;
             dgv.ColumnCount = 100;

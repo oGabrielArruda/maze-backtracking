@@ -56,6 +56,7 @@
             this.dgvCaminhosEncontrados.Name = "dgvCaminhosEncontrados";
             this.dgvCaminhosEncontrados.Size = new System.Drawing.Size(577, 390);
             this.dgvCaminhosEncontrados.TabIndex = 1;
+            this.dgvCaminhosEncontrados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCaminhosEncontrados_CellClick);
             // 
             // label1
             // 
