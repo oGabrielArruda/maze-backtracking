@@ -13,12 +13,21 @@ namespace _19170_19196_ED_Lab
     class Labirinto
     {
         private char[ , ] matriz;
-        List<PilhaLista<Coordenada>> caminhosPossiveis;       
+        List<PilhaLista<Coordenada>> caminhosPossiveis;   
+        
+        /**
+         * Construtor responsável por ler o arquivo e definir a matriz do labirinto
+         * @nomeArquivo é a string do caminho do arquivo txt
+         */
         public Labirinto(string nomeArquivo)
         {
             lerArquivo(nomeArquivo);                
         }
 
+        /**
+         * Função responsável por ler um arquivo texto de labirinto e definir a matriz
+         * @nomeArquivo a string que representa o caminho do arquivo txt
+         */
         private void lerArquivo(string nomeArquivo)
         {
             StreamReader sr = new StreamReader(nomeArquivo);
@@ -38,6 +47,10 @@ namespace _19170_19196_ED_Lab
             }
         }
 
+        /**
+         * Função que exibe a matriz do labirinto em um DataGridView
+         * @dgv dataGridView em que a exibição será feita
+         */
         public void exibirLabirinto(DataGridView dgv)
         {
             ajustarDgv(dgv);
@@ -46,6 +59,11 @@ namespace _19170_19196_ED_Lab
                     dgv.Rows[i].Cells[j].Value = matriz[i, j];
         }
 
+        /**
+         * Função que exibe determinado caminho em um DataGridView
+         * @dgv o dataGridView em que a exibição será feita
+         * @indexCaminho qual o índice (número) do caminho a ser exibido
+         */
         public void exibirCaminho(DataGridView dgv, int indexCaminho)
         {
             PilhaLista<Coordenada> caminho = caminhosPossiveis[indexCaminho].Clone();
@@ -62,6 +80,10 @@ namespace _19170_19196_ED_Lab
             Application.DoEvents();
         }
 
+        /**
+         * Função que exibe as coordenadas de todos os caminhos achados em um DataGridView
+         * @dgv dataGridView em que a exibição será feita
+         */
         public void exibirSequenciaDeMovimentos(DataGridView dgv)
         {
             int qtdCaminhos = 0;
