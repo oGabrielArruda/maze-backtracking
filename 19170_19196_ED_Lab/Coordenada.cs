@@ -23,23 +23,10 @@ namespace _19170_19196_ED_Lab
         {
             throw new NotImplementedException();
         }
-
-        public bool Equals(object obj)
+        
+        public override string ToString()
         {
-            if (obj == null)
-                return false;
-            if (this == obj)
-                return true;
-            if (this.GetType() != obj.GetType())
-                return false;
-
-            Coordenada coord = (Coordenada)obj;
-
-            if (this.linha != coord.linha)
-                return false;
-            if (this.coluna != coord.coluna)
-                return false;
-            return true;
+            return "Linha: " + linha + "; Coluna: " + coluna;
         }
     }
 }
