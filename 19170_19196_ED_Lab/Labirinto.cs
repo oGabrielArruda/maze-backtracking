@@ -113,16 +113,25 @@ namespace _19170_19196_ED_Lab
          */
         private void tentarMover(PilhaLista<Coordenada> pilhaMovimentos, ref bool seMoveu, DataGridView dgv)
         {
-            for (int i = 0; i < matrizMovimentos.GetLength(0) && !seMoveu; i++)
+            int start = 0;
+            char c = matriz[linhaAtual, colunaAtual];
+            if(c != ' ' && c != 'I')
+            {
+                string conversao = c + "";
+                start = int.Parse(conversao);
+            }
+            
+
+            for (int i = start+1; i < matrizMovimentos.GetLength(0) && !seMoveu; i++)
             {
                 int possivelLinha = linhaAtual + matrizMovimentos[i,0];
                 int possivelColuna = colunaAtual + matrizMovimentos[i, 1];
 
                 char valorPosicao = matriz[possivelLinha, possivelColuna];
                 if (estaVazio(valorPosicao))
-                    mover(new Coordenada(possivelLinha, possivelColuna), dgv, ref seMoveu, pilhaMovimentos);
+                    mover(new Coordenada(possivelLinha, possivelColuna, i), dgv, ref seMoveu, pilhaMovimentos);
                 else if (ehSaida(valorPosicao))
-                    salvarCaminho(pilhaMovimentos, new Coordenada(possivelLinha, possivelColuna), dgv);
+                    salvarCaminho(pilhaMovimentos, new Coordenada(possivelLinha, possivelColuna, i), dgv);
             }
         }
 
@@ -135,6 +144,7 @@ namespace _19170_19196_ED_Lab
         private void tentarVoltar(ref bool temCaminhoPossivel, PilhaLista<Coordenada> pilhaMovimentos, DataGridView dgv) 
         {
             Coordenada coordAtual = pilhaMovimentos.Desempilhar();
+            matriz[coordAtual.Linha, coordAtual.Coluna] = ' ';
             exibirMovimento(dgv, coordAtual, false);
 
             if (pilhaMovimentos.EstaVazia)
@@ -156,11 +166,12 @@ namespace _19170_19196_ED_Lab
          */
         private void mover(Coordenada proxCoord, DataGridView dgv, ref bool seMoveu, PilhaLista<Coordenada> pilhaMovimentos)
         {
+            
+            matriz[linhaAtual, colunaAtual] = (proxCoord.Direcao + "")[0];
             linhaAtual = proxCoord.Linha;
             colunaAtual = proxCoord.Coluna;
             pilhaMovimentos.Empilhar(proxCoord);
             seMoveu = true;
-            matriz[linhaAtual, colunaAtual] = 'o';
             exibirMovimento(dgv, proxCoord, true);
         }
 
@@ -193,7 +204,7 @@ namespace _19170_19196_ED_Lab
                 dgv.Rows[coord.Linha].Cells[coord.Coluna].Style.BackColor = Color.Green;
             else
                 dgv.Rows[coord.Linha].Cells[coord.Coluna].Style.BackColor = Color.White;
-            Thread.Sleep(10);
+            Thread.Sleep(100);
             Application.DoEvents();
         }
 

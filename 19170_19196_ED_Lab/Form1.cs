@@ -46,7 +46,12 @@ namespace _19170_19196_ED_Lab
         private void btnFindWays_Click(object sender, EventArgs e)
         {
             labirinto.buscarCaminhos(dgvLabirinto);
-            exibirDadosCaminhos();
+
+            int qtd = labirinto.CaminhosPossiveis.Count;
+            MessageBox.Show($"Foram achados {qtd} caminhos!");
+
+            if(qtd > 0)
+                exibirDadosCaminhos();
         }
 
 
