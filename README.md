@@ -1,4 +1,5 @@
 # maze-backtracking
+![Farmers Market Finder Demo](demo/demo.gif)
 This is a C# algorithm to solve mazes contained in text files. 
 
 It uses backtracking and finds all possible paths, so a simple maze can have a lots of different solutions.
