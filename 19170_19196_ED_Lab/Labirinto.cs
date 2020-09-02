@@ -105,7 +105,11 @@ namespace _19170_19196_ED_Lab
 
         /**
          * Função que tenta realizar um movimento.
-         * Caso consiga, a variável seMoveu, passada por referência, é setada como true
+         * Ele inicia a tentativa de movimentos a partir do número marcado na posição da matriz.
+         * Caso esteja vazia, ou seja, não se passou por aquela posição, as tentativas na matriz de movimentos se iniciam na linha 0. 
+         * Caso já se tenha passado pela posição, ou seja, tenha voltado pra ela
+         * inicia-se a tentativa a partir do número marcado, para tentar outros caminhos.
+         * Caso tenha outros movimento possível a partir da posição, a variável seMoveu, passada por referência, é setada como true
          * Caso encontre a saída, ela chama a função que salva o caminho e continua o backtracking normalmente
          * @pilhaMovimentos pilha contendo os movimentos feitos
          * @seMoveu variável que controla o loop e indica o movimento
@@ -159,6 +163,7 @@ namespace _19170_19196_ED_Lab
 
         /**
          * Função responsável pelo movimento de fato, alterando as variáveis globais linhaAtual e colunaAtual.
+         * Antes de se mover, marca-se a posição atual com o char indicando a direção do movimento.
          * @proxCoord coordenada para qual iremos nos mover.
          * @dgv dataGridView em que o movimento será exibido.
          * @seMoveu variável para indicar o movimento
