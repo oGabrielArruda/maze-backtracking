@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -48,10 +49,16 @@ namespace _19170_19196_ED_Lab
             labirinto.buscarCaminhos(dgvLabirinto);
 
             int qtd = labirinto.CaminhosPossiveis.Count;
-            MessageBox.Show($"Foram achados {qtd} caminhos!");
-
-            if(qtd > 0)
+            if (qtd > 0)
+            {
+                if(qtd==1)
+                    MessageBox.Show($"Foi achado apenas 1 caminho!");
+                else
+                    MessageBox.Show($"Foram achados {qtd} caminhos!");
                 exibirDadosCaminhos();
+            }
+            else MessageBox.Show("Labirinto sem resolução possível!");
+                
         }
 
 

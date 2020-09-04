@@ -105,11 +105,11 @@ namespace _19170_19196_ED_Lab
 
         /**
          * Função que tenta realizar um movimento.
-         * Ele inicia a tentativa de movimentos a partir do número marcado na posição da matriz.
+         * Ele inicia a tentativa de movimentos a partir do número marcado na posição da matriz + 1.
          * Caso esteja vazia, ou seja, não se passou por aquela posição, as tentativas na matriz de movimentos se iniciam na linha 0. 
          * Caso já se tenha passado pela posição, ou seja, tenha voltado pra ela
-         * inicia-se a tentativa a partir do número marcado, para tentar outros caminhos.
-         * Caso tenha outros movimento possível a partir da posição, a variável seMoveu, passada por referência, é setada como true
+         * inicia-se a tentativa a partir do número marcado + 1, para tentar outros caminhos.
+         * Caso tenha outros movimentos possível a partir da posição, a variável seMoveu, passada por referência, é setada como true
          * Caso encontre a saída, ela chama a função que salva o caminho e continua o backtracking normalmente
          * @pilhaMovimentos pilha contendo os movimentos feitos
          * @seMoveu variável que controla o loop e indica o movimento
@@ -120,13 +120,9 @@ namespace _19170_19196_ED_Lab
             int start = 0;
             char c = matriz[linhaAtual, colunaAtual];
             if(c != ' ' && c != 'I')
-            {
-                string conversao = c + "";
-                start = int.Parse(conversao);
-            }
-            
+                start = int.Parse(c+"")+1;                        
 
-            for (int i = start+1; i < matrizMovimentos.GetLength(0) && !seMoveu; i++)
+            for (int i = start; i < matrizMovimentos.GetLength(0) && !seMoveu; i++)
             {
                 int possivelLinha = linhaAtual + matrizMovimentos[i,0];
                 int possivelColuna = colunaAtual + matrizMovimentos[i, 1];
@@ -209,7 +205,7 @@ namespace _19170_19196_ED_Lab
                 dgv.Rows[coord.Linha].Cells[coord.Coluna].Style.BackColor = Color.Green;
             else
                 dgv.Rows[coord.Linha].Cells[coord.Coluna].Style.BackColor = Color.White;
-            Thread.Sleep(100);
+            //Thread.Sleep(100);
             Application.DoEvents();
         }
 
